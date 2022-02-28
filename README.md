@@ -5,34 +5,24 @@
 
 Awesome plutoalert created by drandreaskrueger
 
-## Clone and install
+## Clone and initialize virtualenv
 
 ```bash
 git clone https://github.com/drandreaskrueger/plutoalert.git drandreaskrueger_plutoalert
 cd drandreaskrueger_plutoalert
 make virtualenv
 source .venv/bin/activate
-jupyter notebook
 ```
---> **interactive/explore_plutotv.ipynb**
-
-UNREADY!
 
 ## Usage
 
-```py
-from plutoalert import BaseClass
-from plutoalert import base_function
-
-BaseClass().base_method()
-base_function()
-```
+for now, only one example script is implemented:
 
 ```bash
-$ python -m plutoalert
-#or
-$ plutoalert
+source .venv/bin/activate
+python -m plutoalert StarTrek
 ```
+it prints all elements with '**Star Trek**' in the *name* of the series.
 
 ## Development
 
