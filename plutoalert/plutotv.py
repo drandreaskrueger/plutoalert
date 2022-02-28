@@ -1,45 +1,35 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
-from IPython.core.display import display, HTML
-display(HTML("<style>.container { width:100% !important; }</style>"))
-
 import pprint, json
 import requests
 import datetime
 import urllib.parse
 
-# example URLs generated in https://github.com/evoactivity/PlutoIPTV
-PLUTO_URL="http://api.pluto.tv/v2/channels?start=2022-02-20%2023%3A00%3A00.000%2B0100&stop=2022-02-22%2023%3A00%3A00.000%2B0100"
-PLUTO_URL="http://api.pluto.tv/v2/channels?start=2022-02-28%2020%3A00%3A00.000%2B0100&stop=2022-03-02%2020%3A00%3A00.000%2B0100"
-print(urllib.parse.unquote(PLUTO_URL))
-
-
-# In[ ]:
-
-
 PLUTO_URL_TEMPLATE='http://api.pluto.tv/v2/channels?start={datetime_start}&stop={datetime_end}'
+my_channel_slugs=['pluto-tv-sci-fi-de','pluto-tv-star-trek-de', 'doctor-who-classic-de']
+my_series_slugs=['star-trek-discovery-de', 'star-trek-discovery-ptv2','star-trek-enterprise-de']
+
+
+# example_urls:
+# example URLs generated in https://github.com/evoactivity/PlutoIPTV
+PLUTO_URL_1="http://api.pluto.tv/v2/channels?start=2022-02-20%2023%3A00%3A00.000%2B0100&stop=2022-02-22%2023%3A00%3A00.000%2B0100"
+PLUTO_URL="http://api.pluto.tv/v2/channels?start=2022-02-28%2020%3A00%3A00.000%2B0100&stop=2022-03-02%2020%3A00%3A00.000%2B0100"
+
+
 def create_pluto_url(dt_start, dt_end, template=PLUTO_URL_TEMPLATE):
     params = {"datetime_start": urllib.parse.quote(dt_start+".000+0100"),
               "datetime_end":   urllib.parse.quote(dt_end+".000+0100")}
     url=PLUTO_URL_TEMPLATE.format(**params)
     return url
 
-def create_pluto_url_test():
+
+def create_pluto_url_test(PLUTO_URL):
     # test = create_pluto_url(dt_start="2022-02-20 23:00:00", dt_end="2022-02-22 23:00:00")
     test = create_pluto_url(dt_start="2022-02-28 20:00:00", dt_end="2022-03-02 20:00:00")
     print(PLUTO_URL)
     print(test)
     return test==PLUTO_URL
-
-create_pluto_url_test()
-
-
-# In[ ]:
-
 
 def pluto_url_around_now(pastdays=0, futuredays=2, time_of_day_string="20:00:00"):
     yesterday = datetime.datetime.now() - datetime.timedelta(days=pastdays)
@@ -51,24 +41,16 @@ def pluto_url_around_now(pastdays=0, futuredays=2, time_of_day_string="20:00:00"
     url = create_pluto_url(yesterday_string, tdat_string)
     return url
 
-url = pluto_url_around_now()
-print (url)
-PLUTO_URL == url
 
-
-# In[ ]:
-
-
-# url="http://api.pluto.tv/v2/channels?start=2022-02-27%2023%3A00%3A00.000%2B0100&stop=2022-03-01%2023%3A00%3A00.000%2B0100"
-pluto=requests.get(url)
-j=pluto.json()
-if isinstance(j, dict) and j['statusCode']!=200:
-    pprint.pprint(j)
-else:
-    print("Success. Result list has %d elements." % len(j))
-
-
-# In[ ]:
+def get_pluto_epg(url, ifprint=True):
+    # url="http://api.pluto.tv/v2/channels?start=2022-02-27%2023%3A00%3A00.000%2B0100&stop=2022-03-01%2023%3A00%3A00.000%2B0100"
+    pluto=requests.get(url)
+    j=pluto.json()
+    if isinstance(j, dict) and j['statusCode']!=200:
+        pprint.pprint(j)
+    elif ifprint:
+        print("Success. Result list has %d elements." % len(j))
+    return j
 
 
 def extract_channel_slugs_only(j):
@@ -78,15 +60,11 @@ def extract_channel_slugs_only(j):
     slugs=sorted(list(set(slugs)))
     return slugs
 
+
 def print_with_newlines(j, func=extract_channel_slugs_only):
     res = func(j)
     print("\n".join(res))
     print("#############\n%d elements" % len(res))
-
-print_with_newlines(j)
-
-
-# In[ ]:
 
 
 def extract_series_slugs_only(j):
@@ -100,11 +78,6 @@ def extract_series_slugs_only(j):
     slugs=sorted(list(set(slugs)))
     return slugs
 
-print_with_newlines(j, extract_series_slugs_only)
-
-
-# In[ ]:
-
 
 def timelines_in_channel(ch, print_channel_name=True, FORMATTER="(%s) %s = %d timelines"):
     timelines = ch.get('timelines',[])
@@ -112,9 +85,11 @@ def timelines_in_channel(ch, print_channel_name=True, FORMATTER="(%s) %s = %d ti
         print (FORMATTER % (ch['slug'], ch['name'], len(timelines)))
     return timelines
 
+
 def exxsxx(ep, FORMATTER = "s%02de%02d"):
     season = ep.get('season',0)
     return FORMATTER % (season, ep['number'])
+
 
 def time_info(tl):
     start = datetime.datetime.strptime(tl['start'][:19],"%Y-%m-%dT%H:%M:%S")
@@ -122,6 +97,7 @@ def time_info(tl):
     minutes = int((stop-start).total_seconds() / 60.0)
     start_print = start.strftime("%H:%M %b %d")
     return start, start_print, minutes
+
 
 def series_info(ep):
     series_name = ep['series']['name']
@@ -182,102 +158,90 @@ def print_result_series_channels(result, series, channels):
         print("\n".join(list(zip(*result))[1]))
         print ("Series: %s\nChannels: %s" % (series, channels))
 
-result, channels, series = iterate_pluto(j, print_channel_name=False, find_in_series_name="Star")
-print_result_series_channels(result, series, channels)
 
-
-# In[ ]:
-
-
-def example_everything():
+def example_everything(j):
     # careful 2840 answers:
     result, channels, series = iterate_pluto(j, find_in_series_name=False, print_each_hit=False, print_channel_name=False)
     print_result_series_channels(result, series, channels)
-example_everything()
 
 
-# In[ ]:
-
-
-def example_Star_in_series_name():
+def example_Star_in_series_name(j):
     result, channels, series = iterate_pluto(j, find_in_series_name="Star", print_each_hit=False, print_channel_name=False)
     print_result_series_channels(result, series, channels)
-example_Star_in_series_name()
 
 
-# In[ ]:
-
-
-def example_Discovery_in_series_name():
+def example_Discovery_in_series_name(j):
     result, channels, series = iterate_pluto(j, find_in_series_name="Discovery", print_each_hit=False, print_channel_name=False)
     print_result_series_channels(result, series, channels)
-    
-example_Discovery_in_series_name()
 
 
-# In[ ]:
-
-
-def example_DoctorWho_in_series_name():
+def example_DoctorWho_in_series_name(j):
     result, channels, series = iterate_pluto(j, find_in_series_name="Doctor Who", print_each_hit=False, print_channel_name=False)
     print_result_series_channels(result, series, channels)
-example_DoctorWho_in_series_name()
 
 
-# In[ ]:
-
-
-my_channel_slugs=['pluto-tv-sci-fi-de','pluto-tv-star-trek-de', 'doctor-who-classic-de']
-my_series_slugs=['star-trek-discovery-de', 'star-trek-discovery-ptv2','star-trek-enterprise-de']
-
-
-# In[ ]:
-
-
-def example_my_channel_slugs(my_channel_slugs=my_channel_slugs):
+def example_my_channel_slugs(j, my_channel_slugs=my_channel_slugs):
     result, channels, series = iterate_pluto(j, 
                                              my_channel_slugs=my_channel_slugs,
                                              print_each_hit=False, print_channel_name=False)
     print_result_series_channels(result, series, channels)
-example_my_channel_slugs()
 
 
-# In[ ]:
-
-
-def example_my_channel_slugs_and_series_slugs(my_channel_slugs=my_channel_slugs, my_series_slugs=my_series_slugs):
+def example_my_channel_slugs_and_series_slugs(j, my_channel_slugs=my_channel_slugs, my_series_slugs=my_series_slugs):
     result, channels, series = iterate_pluto(j, 
                                              my_channel_slugs=my_channel_slugs,
                                              my_series_slugs=my_series_slugs,
                                              print_each_hit=False, print_channel_name=False)
     print_result_series_channels(result, series, channels)
-example_my_channel_slugs_and_series_slugs()
-
-
-# In[ ]:
 
 
 def the_purpose_of_all_this_v1():
+    url = pluto_url_around_now(time_of_day_string="20:00:00")
+    j = get_pluto_epg(url, ifprint=False)
     result, channels, series = iterate_pluto(j, 
                                              my_channel_slugs=my_channel_slugs,
                                              my_series_slugs=my_series_slugs,
                                              print_each_hit=False, print_channel_name=False, print_count=False)
     print_result_series_channels(result, series, channels)
-the_purpose_of_all_this_v1()
-
-
-# In[ ]:
 
 
 def the_purpose_of_all_this_v2():
-    # Everything with "Star Trek":
+    print("Find everything with 'Star Trek' in Series Name:")
+    url = pluto_url_around_now(time_of_day_string="20:00:00")
+    j = get_pluto_epg(url, ifprint=False)
     result, channels, series = iterate_pluto(j, find_in_series_name="Star Trek", print_each_hit=False, print_channel_name=False, print_count=False)
     print_result_series_channels(result, series, channels)
-the_purpose_of_all_this_v2()
 
 
-# In[ ]:
+# -----------------------------------------------------------------------
 
 
+def testing_all_of_the_above():
+    print(urllib.parse.unquote(PLUTO_URL))
+    
+    create_pluto_url_test(PLUTO_URL)
+    url = pluto_url_around_now()
+    print (url)
+    PLUTO_URL == url
+    
+    j = get_pluto_epg(url)
+    
+    print_with_newlines(j)
+    print_with_newlines(j, extract_series_slugs_only)
+    
+    result, channels, series = iterate_pluto(j, print_channel_name=False, find_in_series_name="Star")
+    print_result_series_channels(result, series, channels)
+    
+    example_everything(j)
+    example_Star_in_series_name(j)
+    example_Discovery_in_series_name(j)
+    example_DoctorWho_in_series_name(j)
+    example_my_channel_slugs(j)
+    example_my_channel_slugs_and_series_slugs(j)
+    
+    the_purpose_of_all_this_v1()
+    the_purpose_of_all_this_v2()
 
 
+if __name__ == '__main__':
+    testing_all_of_the_above()
