@@ -58,7 +58,7 @@ def create_pluto_url_test(PLUTO_URL):
     return test == PLUTO_URL
 
 
-def pluto_url_around_now(
+def pluto_url_around_now_OLD(
     pastdays=0, futuredays=2, time_of_day_string="20:00:00"
 ):
     yesterday = datetime.datetime.now() - datetime.timedelta(days=pastdays)
@@ -70,6 +70,17 @@ def pluto_url_around_now(
     tdat_string = ("%s" % the_day_after_tomorrow)[:11] + time_of_day_string
     # print(tdat_string)
     url = create_pluto_url(yesterday_string, tdat_string)
+    return url
+
+
+def pluto_url_around_now():
+    now = datetime.datetime.now()
+    this_hour_string = ("%s" % now)[:13] + ":00:00"
+    # print(this_hour_string)
+    fortyeight_hours_later = now + datetime.timedelta(hours=48)
+    f8hl_string = ("%s" % fortyeight_hours_later)[:13] + ":00:00"
+    # print(f8hl_string)
+    url = create_pluto_url(this_hour_string, f8hl_string)
     return url
 
 
@@ -288,7 +299,7 @@ def example_my_channel_slugs_and_series_slugs(
 
 
 def the_purpose_of_all_this_v1():
-    url = pluto_url_around_now(time_of_day_string="20:00:00")
+    url = pluto_url_around_now()
     j = get_pluto_epg(url, ifprint=False)
     result, channels, series = iterate_pluto(
         j,
@@ -303,7 +314,7 @@ def the_purpose_of_all_this_v1():
 
 def the_purpose_of_all_this_v2():
     print("Find everything with 'Star Trek' in Series Name:")
-    url = pluto_url_around_now(time_of_day_string="20:00:00")
+    url = pluto_url_around_now()
     j = get_pluto_epg(url, ifprint=False)
     result, channels, series = iterate_pluto(
         j,
@@ -348,4 +359,6 @@ def testing_all_of_the_above():
 
 
 if __name__ == "__main__":
-    testing_all_of_the_above()
+    #print(pluto_url_around_now())
+    # testing_all_of_the_above()
+    the_purpose_of_all_this_v2()
