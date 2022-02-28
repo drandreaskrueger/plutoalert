@@ -1,7 +1,7 @@
 import argparse  # pragma: no cover
 
 from . import BaseClass, base_function  # pragma: no cover
-
+from . import the_purpose_of_all_this_v2
 
 def main() -> None:  # pragma: no cover
     """
@@ -25,10 +25,10 @@ def main() -> None:  # pragma: no cover
     )
     # This is required positional argument
     parser.add_argument(
-        "name",
+        "command",
         type=str,
-        help="The username",
-        default="drandreaskrueger",
+        help="which command do you want to execute?",
+        default="StarTrek",
     )
     # This is optional named argument
     parser.add_argument(
@@ -46,7 +46,12 @@ def main() -> None:  # pragma: no cover
         help="Optionally adds verbosity",
     )
     args = parser.parse_args()
-    print(f"{args.message} {args.name}!")
+    
+    if args.command=="StarTrek":
+        the_purpose_of_all_this_v2()
+        return
+    
+    print(f"{args.message} {args.command}!")
     if args.verbose:
         print("Verbose mode is on.")
 
@@ -55,6 +60,7 @@ def main() -> None:  # pragma: no cover
     print(base.base_method())
     print(base_function())
     print("End of main function")
+
 
 
 if __name__ == "__main__":  # pragma: no cover
