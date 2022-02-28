@@ -13,6 +13,8 @@ If you want to replace this with a Flask application run:
 and then choose `flask` as template.
 """
 
+from . import plutotv
+
 
 class BaseClass:
     def base_method(self) -> str:
@@ -30,3 +32,10 @@ def base_function() -> str:
     Base function.
     """
     return "hello from base function"
+
+
+def plutotv_example() -> None:
+    """
+    example
+    """
+    plutotv.the_purpose_of_all_this_v2()
