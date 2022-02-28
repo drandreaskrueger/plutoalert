@@ -7,7 +7,6 @@ import urllib.parse
 
 import requests
 
-
 PLUTO_URL_TEMPLATE = (
     "http://api.pluto.tv/v2/channels"
     "?start={datetime_start}&stop={datetime_end}"
@@ -359,6 +358,6 @@ def testing_all_of_the_above():
 
 
 if __name__ == "__main__":
-    #print(pluto_url_around_now())
+    # print(pluto_url_around_now())
     # testing_all_of_the_above()
     the_purpose_of_all_this_v2()
