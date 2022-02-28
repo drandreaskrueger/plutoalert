@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pprint, json
+import pprint
 import requests
 import datetime
 import urllib.parse
@@ -20,7 +20,7 @@ PLUTO_URL="http://api.pluto.tv/v2/channels?start=2022-02-28%2020%3A00%3A00.000%2
 def create_pluto_url(dt_start, dt_end, template=PLUTO_URL_TEMPLATE):
     params = {"datetime_start": urllib.parse.quote(dt_start+".000+0100"),
               "datetime_end":   urllib.parse.quote(dt_end+".000+0100")}
-    url=PLUTO_URL_TEMPLATE.format(**params)
+    url=template.format(**params)
     return url
 
 
@@ -222,7 +222,7 @@ def testing_all_of_the_above():
     create_pluto_url_test(PLUTO_URL)
     url = pluto_url_around_now()
     print (url)
-    PLUTO_URL == url
+    print(PLUTO_URL == url)
     
     j = get_pluto_epg(url)
     
