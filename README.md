@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/drandreaskrueger/plutoalert/branch/main/graph/badge.svg?token=plutoalert_token_here)](https://codecov.io/gh/drandreaskrueger/plutoalert)
 [![CI](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml/badge.svg)](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml)
 
-The EPG of Pluto.tv projects only a few hours into the future. Here is a commandline tool to quickly check, whether the rotation of your favorite series has reached that one episode again, that you have not seen yet. 
+The EPG of Pluto.tv projects only a few hours into the future. Here is a commandline tool to quickly check, whether the rotation of your favorite series has reached that one episode again, that you have not seen yet.
 
 It works by downloading the complete channel list, and then filtering by some triggers, like 'ChannelSlug', 'SeriesSlug' - or a simple word search within the title of the series name. If you know Python, you can do all that already, see [plutotv.py](plutoalert/plutotv.py) --> `testing_all_of_the_above()`. However, on the commandline only a smaller subset of functions is implemented yet.
 

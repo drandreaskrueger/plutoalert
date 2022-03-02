@@ -20,8 +20,8 @@ original_author="drandreaskrueger"
 original_name="plutoalert"
 original_urlname="plutoalert"
 original_description="Awesome plutoalert created by drandreaskrueger"
-# for filename in $(find . -name "*.*") 
-for filename in $(git ls-files) 
+# for filename in $(find . -name "*.*")
+for filename in $(git ls-files)
 do
     sed -i "s/$original_author/$author/g" $filename
     sed -i "s/$original_name/$name/g" $filename
