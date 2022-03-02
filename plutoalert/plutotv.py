@@ -383,6 +383,11 @@ def testing_all_of_the_above():
     the_purpose_of_all_this_v1()
     the_purpose_of_all_this_v2()
 
+    print_channel_slugs()
+    print_channel_slugs(titles_too=True)
+    print_series_slugs()
+    print_series_slugs(titles_too=True)
+
 
 if __name__ == "__main__":
     # print(pluto_url_around_now())
