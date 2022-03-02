@@ -2,12 +2,11 @@
 # coding: utf-8
 
 import datetime
-from tzlocal import get_localzone  # $ pip install tzlocal
-
 import pprint
 import urllib.parse
 
-import requests
+import requests # $ pip install requests
+from tzlocal import get_localzone  # $ pip install tzlocal
 
 PLUTO_URL_TEMPLATE = (
     "http://api.pluto.tv/v2/channels"
@@ -101,7 +100,7 @@ def extract_channel_slugs_only(j, titles_too=False):
     for e in j:
         entry = e["slug"]
         if titles_too:
-            entry += " = "+e["name"]
+            entry += " = " + e["name"]
         slugs.append(entry)
     slugs = sorted(list(set(slugs)))
     return slugs
@@ -122,7 +121,7 @@ def extract_series_slugs_only(j, titles_too=False):
             series = ep["series"]
             entry = series["slug"]
             if titles_too:
-                entry += " = "+series["name"]
+                entry += " = " + series["name"]
             slugs.append(entry)
     slugs = sorted(list(set(slugs)))
     return slugs
@@ -144,10 +143,12 @@ def exxsxx(ep, FORMATTER="s%02de%02d"):
 
 def time_info(tl):
     # to turn into localtime, this must be parsed as UTC= +0000
-    start = datetime.datetime.strptime(tl["start"][:19]+" +0000",
-                                       "%Y-%m-%dT%H:%M:%S %z")
-    stop = datetime.datetime.strptime(tl["stop"][:19]+" +0000",
-                                      "%Y-%m-%dT%H:%M:%S %z")
+    start = datetime.datetime.strptime(
+        tl["start"][:19] + " +0000", "%Y-%m-%dT%H:%M:%S %z"
+    )
+    stop = datetime.datetime.strptime(
+        tl["stop"][:19] + " +0000", "%Y-%m-%dT%H:%M:%S %z"
+    )
     minutes = int((stop - start).total_seconds() / 60.0)
     # turn into localtime - https://stackoverflow.com/a/1111345
     # print(start.strftime("%H:%M %b %d %Z"), end=" ...")
@@ -343,15 +344,19 @@ def the_purpose_of_all_this_v2(print_count=False):
 def print_channel_slugs(titles_too=False):
     url = pluto_url_around_now()
     j = get_pluto_epg(url)
-    print_with_newlines(j, func=extract_channel_slugs_only,
-                        titles_too=titles_too)
+    print_with_newlines(
+        j, func=extract_channel_slugs_only, titles_too=titles_too
+    )
 
 
 def print_series_slugs(titles_too=False):
     url = pluto_url_around_now()
     j = get_pluto_epg(url)
-    print_with_newlines(j, func=extract_series_slugs_only,
-                        titles_too=titles_too)
+    print_with_newlines(
+        j, func=extract_series_slugs_only, titles_too=titles_too
+    )
+
+
 # -----------------------------------------------------------------------
 
 
