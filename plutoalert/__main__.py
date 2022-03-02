@@ -3,6 +3,7 @@ import argparse  # pragma: no cover
 from . import BaseClass  # pragma: no cover
 from . import base_function  # pragma: no cover
 from . import the_purpose_of_all_this_v2  # pragma: no cover
+from . import print_channel_slugs, print_series_slugs
 
 
 def main() -> None:  # pragma: no cover
@@ -29,7 +30,7 @@ def main() -> None:  # pragma: no cover
     parser.add_argument(
         "command",
         type=str,
-        help="command to execute? Try 'StarTrek'",
+        help="Try StarTrek, ChannelSlugs or SeriesSlugs",
         default="StarTrek",
     )
     # This is optional named argument
@@ -49,13 +50,19 @@ def main() -> None:  # pragma: no cover
     )
     args = parser.parse_args()
 
-    if args.command == "StarTrek":
-        the_purpose_of_all_this_v2()
-        return
-
-    print(f"{args.message} {args.command}!")
+    print(f"command={args.command}")
     if args.verbose:
         print("Verbose mode is on.")
+
+    if args.command == "StarTrek":
+        the_purpose_of_all_this_v2(print_count=args.verbose)
+        return
+    if args.command == "ChannelSlugs":
+        print_channel_slugs(titles_too=args.verbose)
+        return
+    if args.command == "SeriesSlugs":
+        print_series_slugs(titles_too=args.verbose)
+        return
 
     print("Executing main function")
     base = BaseClass()

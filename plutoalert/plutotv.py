@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import datetime
-import pytz  # $ pip install pytz
 from tzlocal import get_localzone  # $ pip install tzlocal
 
 import pprint
@@ -97,28 +96,34 @@ def get_pluto_epg(url, ifprint=True):
     return j
 
 
-def extract_channel_slugs_only(j):
+def extract_channel_slugs_only(j, titles_too=False):
     slugs = []
     for e in j:
-        slugs.append(e["slug"])
+        entry = e["slug"]
+        if titles_too:
+            entry += " = "+e["name"]
+        slugs.append(entry)
     slugs = sorted(list(set(slugs)))
     return slugs
 
 
-def print_with_newlines(j, func=extract_channel_slugs_only):
-    res = func(j)
+def print_with_newlines(j, func=extract_channel_slugs_only, titles_too=False):
+    res = func(j, titles_too)
     print("\n".join(res))
     print("#############\n%d elements" % len(res))
 
 
-def extract_series_slugs_only(j):
+def extract_series_slugs_only(j, titles_too=False):
     slugs = []
     for ch in j:
         timelines = ch.get("timelines", [])
         for tl in timelines:
             ep = tl["episode"]
-            series_slug = ep["series"]["slug"]
-            slugs.append(series_slug)
+            series = ep["series"]
+            entry = series["slug"]
+            if titles_too:
+                entry +=" = "+series["name"]
+            slugs.append(entry)
     slugs = sorted(list(set(slugs)))
     return slugs
 
@@ -321,7 +326,7 @@ def the_purpose_of_all_this_v1():
     print_result_series_channels(result, series, channels)
 
 
-def the_purpose_of_all_this_v2():
+def the_purpose_of_all_this_v2(print_count):
     print("Find everything with 'Star Trek' in Series Name:")
     url = pluto_url_around_now()
     j = get_pluto_epg(url, ifprint=False)
@@ -330,11 +335,23 @@ def the_purpose_of_all_this_v2():
         find_in_series_name="Star Trek",
         print_each_hit=False,
         print_channel_name=False,
-        print_count=False,
+        print_count=print_count,
     )
     print_result_series_channels(result, series, channels)
 
 
+def print_channel_slugs(titles_too=False):
+    url = pluto_url_around_now()
+    j = get_pluto_epg(url)
+    print_with_newlines(j, func=extract_channel_slugs_only,
+                        titles_too=titles_too)
+
+
+def print_series_slugs(titles_too=False):
+    url = pluto_url_around_now()
+    j = get_pluto_epg(url)
+    print_with_newlines(j, func=extract_series_slugs_only,
+                        titles_too=titles_too)
 # -----------------------------------------------------------------------
 
 
@@ -370,4 +387,9 @@ def testing_all_of_the_above():
 if __name__ == "__main__":
     # print(pluto_url_around_now())
     # testing_all_of_the_above()
-    the_purpose_of_all_this_v2()
+    # the_purpose_of_all_this_v2()
+    # print_channel_slugs(titles_too=True)
+    # print_channel_slugs()
+    # print_series_slugs()
+    print_series_slugs(titles_too=True)
+
