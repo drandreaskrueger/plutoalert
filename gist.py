@@ -6,7 +6,7 @@ print("\nPreparing ... please be patient ...\n")
 
 import subprocess
 subprocess.check_call("git clone https://github.com/drandreaskrueger/plutoalert", shell=True)
-subprocess.check_call("cd plutoalert; pip install -r requirements.txt", shell=True)
+subprocess.check_call("cd plutoalert; pip install -r requirements-minimum.txt", shell=True)
 
 import sys
 sys.path.append("./plutoalert/plutoalert")
