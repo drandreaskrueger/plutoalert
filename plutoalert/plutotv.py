@@ -122,7 +122,7 @@ def extract_series_slugs_only(j, titles_too=False):
             series = ep["series"]
             entry = series["slug"]
             if titles_too:
-                entry +=" = "+series["name"]
+                entry += " = "+series["name"]
             slugs.append(entry)
     slugs = sorted(list(set(slugs)))
     return slugs
@@ -326,7 +326,7 @@ def the_purpose_of_all_this_v1():
     print_result_series_channels(result, series, channels)
 
 
-def the_purpose_of_all_this_v2(print_count):
+def the_purpose_of_all_this_v2(print_count=False):
     print("Find everything with 'Star Trek' in Series Name:")
     url = pluto_url_around_now()
     j = get_pluto_epg(url, ifprint=False)
@@ -397,4 +397,3 @@ if __name__ == "__main__":
     # print_channel_slugs()
     # print_series_slugs()
     print_series_slugs(titles_too=True)
-

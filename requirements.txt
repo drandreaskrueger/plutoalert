@@ -7,4 +7,4 @@ jupyter
 requests
 types-requests
 tzlocal
-pytz
+types-tzlocal
