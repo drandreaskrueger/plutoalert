@@ -6,3 +6,5 @@
 jupyter
 requests
 types-requests
+tzlocal
+pytz
