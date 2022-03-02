@@ -5,7 +5,7 @@ import datetime
 import pprint
 import urllib.parse
 
-import requests # $ pip install requests
+import requests  # $ pip install requests
 from tzlocal import get_localzone  # $ pip install tzlocal
 
 PLUTO_URL_TEMPLATE = (
