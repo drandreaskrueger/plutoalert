@@ -90,7 +90,13 @@ def pluto_url_around_now():
 
 def get_pluto_epg(url, ifprint=True):
     # url="http://api.pluto.tv/v2/channels?start=2022-02-27%2023%3A00%3A00.000%2B0100&stop=2022-03-01%2023%3A00%3A00.000%2B0100"
+    # url = "http://api.pluto.tv/v3"
     pluto = requests.get(url)
+    sc = pluto.status_code
+    if sc != 200:
+        print("PROBLEM: request ended with status_code=%s"
+              " when trying to access url:\n" % sc, url)
+        return []
     j = pluto.json()
     if isinstance(j, dict) and j["statusCode"] != 200:
         pprint.pprint(j)
