@@ -1,12 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 import datetime
 import pprint
 import urllib.parse
-
 import requests  # $ pip install requests
-from tzlocal import get_localzone  # $ pip install tzlocal
+
+try:
+    from tzlocal import get_localzone  # $ pip install tzlocal
+    # raise Exception("test")
+except Exception:
+    get_localzone = None
 
 PLUTO_URL_TEMPLATE = (
     "http://api.pluto.tv/v2/channels"
@@ -152,10 +156,12 @@ def time_info(tl):
     minutes = int((stop - start).total_seconds() / 60.0)
     # turn into localtime - https://stackoverflow.com/a/1111345
     # print(start.strftime("%H:%M %b %d %Z"), end=" ...")
-    start_localtime = start.astimezone(get_localzone())
+    if get_localzone:
+        start = start.astimezone(get_localzone())
+
     # print(start_localtime.strftime("%H:%M %b %d %Z"))
-    start_print = start_localtime.strftime("%H:%M %b %d")
-    return start_localtime, start_print, minutes
+    start_print = start.strftime("%H:%M %b %d")
+    return start, start_print, minutes
 
 
 def series_info(ep):
@@ -339,6 +345,8 @@ def the_purpose_of_all_this_v2(print_count=False):
         print_count=print_count,
     )
     print_result_series_channels(result, series, channels)
+    if not get_localzone:
+        print("N.B.: Times are UTC.")
 
 
 def print_channel_slugs(titles_too=False):
@@ -397,8 +405,8 @@ def testing_all_of_the_above():
 if __name__ == "__main__":
     # print(pluto_url_around_now())
     # testing_all_of_the_above()
-    # the_purpose_of_all_this_v2()
+    the_purpose_of_all_this_v2()
     # print_channel_slugs(titles_too=True)
     # print_channel_slugs()
     # print_series_slugs()
-    print_series_slugs(titles_too=True)
+    # print_series_slugs(titles_too=True)
