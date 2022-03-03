@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+import sys
 import datetime
 import pprint
 import urllib.parse
 import requests  # $ pip install requests
 
 try:
-    from tzlocal import get_localzone  # $ pip install tzlocal
     # raise Exception("test")
+    from tzlocal import get_localzone  # $ pip install tzlocal
 except Exception:
-    get_localzone = None
+    pass
 
 PLUTO_URL_TEMPLATE = (
     "http://api.pluto.tv/v2/channels"
@@ -162,7 +163,7 @@ def time_info(tl):
     minutes = int((stop - start).total_seconds() / 60.0)
     # turn into localtime - https://stackoverflow.com/a/1111345
     # print(start.strftime("%H:%M %b %d %Z"), end=" ...")
-    if get_localzone:
+    if "tzlocal" in sys.modules:
         start = start.astimezone(get_localzone())
 
     # print(start_localtime.strftime("%H:%M %b %d %Z"))
@@ -351,7 +352,7 @@ def the_purpose_of_all_this_v2(print_count=False):
         print_count=print_count,
     )
     print_result_series_channels(result, series, channels)
-    if not get_localzone:
+    if "tzlocal" not in sys.modules:
         print("N.B.: Times are UTC.")
 
 
