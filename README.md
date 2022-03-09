@@ -9,6 +9,7 @@ The EPG of Pluto.tv projects only a few hours into the future. Here is a command
 It works by downloading the complete channel information json (>100 channels, >400 series, >2000 episodes), and then filtering by your choices (see 'ChannelSlug', 'SeriesSlug') - or a simple *word search* within the *title of the series name* (see the 'Star Trek' example). If you know Python, you can do all that already, see [plutotv.py](plutoalert/plutotv.py) --> `testing_all_of_the_above()`. However, on the commandline only a smaller subset of functions is implemented ... yet.
 
 ## Clone and initialize virtualenv
+Linux or Mac. For windows see [windows.md](windows.md).
 
 ```bash
 git clone https://github.com/drandreaskrueger/plutoalert.git drandreaskrueger_plutoalert
