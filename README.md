@@ -40,21 +40,7 @@ If the only thing you get is a boring `403 ... EMPTY RESULTS` then perhaps the p
 
 First connect your VPN to one of these countries in which PlutoTv is working ... (the following list was true in March 2022) ...
 
-* Argentina
-* Austria
-* Brazil
-* Canada
-* Chile
-* Costa Rica
-* France
-* Germany
-* Italy
-* Mexico
-* Spain
-* Switzerland
-* Thailand
-* UK
-* US
+* Argentina, Austria, Brazil, Canada, Chile, Costa Rica, France, Germany, Italy, Mexico, Spain, Switzerland, Thailand, UK, US
 
 ... and THEN (first run the curl test above, and then) try `python -m plutoalert StarTrek` again.
 
