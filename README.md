@@ -50,7 +50,7 @@ Geoblocking is also the reason why starting plutoalert inside the fabulous [Gitp
 
 ## Development
 
-Read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+Read the [CONTRIBUTING.md](CONTRIBUTING.md) file. Perhaps there is an [(good first) issue](https://github.com/drandreaskrueger/plutoalert/issues) that you like to solve?
 
 ## Example output
 Star Trek, now with times shown in localzone
