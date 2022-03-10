@@ -11,7 +11,7 @@ try:
     # raise Exception("test")
     from tzlocal import get_localzone  # $ pip install tzlocal
 except Exception:
-    pass
+    print("N.B.: Times are UTC.")
 
 PLUTO_URL_TEMPLATE = (
     "http://api.pluto.tv/v2/channels"
@@ -361,8 +361,6 @@ def the_purpose_of_all_this_v2(print_count=False):
         print_count=print_count,
     )
     print_result_series_channels(result, series, channels)
-    if "tzlocal" not in sys.modules:
-        print("N.B.: Times are UTC.")
 
 
 def print_channel_slugs(titles_too=False):
