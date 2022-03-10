@@ -1,12 +1,12 @@
 # plutoalert
 
+[![CI](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml/badge.svg)](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml)
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/drandreaskrueger/plutoalert)
 [![codecov](https://codecov.io/gh/drandreaskrueger/plutoalert/branch/main/graph/badge.svg?token=plutoalert_token_here)](https://codecov.io/gh/drandreaskrueger/plutoalert)
-[![CI](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml/badge.svg)](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml)
 
-The EPG of Pluto.tv projects only a few hours into the future. Here is a commandline tool to quickly check, whether the rotation of your favorite series has reached that one episode again, that you have not seen yet.
+The EPG of Pluto.tv projects only a few hours into the future. This commandline tool here quickly checks, whether the rotation of your favorite series has reached that one episode again, that you have not seen yet.
 
-It works by downloading the complete channel information json (>100 channels, >400 series, >2000 episodes), and then filtering by your choices (see 'ChannelSlug', 'SeriesSlug') - or a simple *word search* within the *title of the series name* (see the 'Star Trek' example). If you know Python, you can do all that already, see [plutotv.py](plutoalert/plutotv.py) --> `testing_all_of_the_above()`. However, on the commandline only a smaller subset of functions is implemented ... yet.
+It begins by downloading the *complete* channel information json (>100 channels, >400 series, >2000 episodes), and then filtering by your choices (see 'ChannelSlug', 'SeriesSlug') - or a simple *word search* within the *title of the series name* (see the 'Star Trek' example). If you know Python, you can do all that already, see [plutotv.py](plutoalert/plutotv.py) --> `testing_all_of_the_above()`. However, on the commandline only a smaller subset of functions is implemented ... yet.
 
 ## Clone and initialize virtualenv
 Linux or Mac. For windows see [windows.md](windows.md).
@@ -19,8 +19,7 @@ source .venv/bin/activate
 ```
 
 ## Usage
-
-for now, 3 example scripts are implemented, they are all called like this:
+For now, 3 example scripts are implemented, they are all called like this:
 
 ```bash
 source .venv/bin/activate
@@ -29,25 +28,25 @@ python -m plutoalert StarTrek
 it prints all elements with '**Star Trek**' in the *name* of the series.
 
 These *commands* work already (more might be coming):
-* StarTrek
-* ChannelSlugs
-* SeriesSlugs
+* `StarTrek`
+* `ChannelSlugs`
+* `SeriesSlugs`
 
-for example outputs, see below.
+Example outputs are below.
 
 ## Geoblocking
-If the only thing you get is a boring `403 ... EMPTY RESULTS` then perhaps the pluto API is *never answering* **to you**? To test that, try `curl http://api.pluto.tv/v2/channels` on the commandline (or paste that URL in the browser). If that answer is `[]` too, then your **solution** is:
+If the only thing you get is a boring `403 ... EMPTY result` then perhaps the pluto API is *never answering* **to you**? To test it, try `curl http://api.pluto.tv/v2/channels` on the commandline (or paste the URL in a browser). If the answer is `[]` too, then your **solution** is:
 
-First connect your VPN to a countries where PlutoTv is working (following list was true in March 2022) ...
+First connect your VPN to a country where PlutoTv is working (following list was true in March 2022) ...
 
 * Argentina, Austria, Brazil, Canada, Chile, Costa Rica, France, Germany, Italy, Mexico, Spain, Switzerland, Thailand, UK, US
 
-... and THEN (first run the curl test above, and then) try `python -m plutoalert StarTrek` again.
+... and then (first run the curl test above, and then) try `python -m plutoalert StarTrek` again.
 
 ### Python online execution environments: pythonanywhere, gitpod, ...
-Geoblocking is also the reason why starting plutoalert inside the fabulous [Gitpod](https://gitpod.io/#https://github.com/drandreaskrueger/plutoalert) and [PythonAnywhere](https://www.pythonanywhere.com/gists/94d3b92d57976da77ae2753b45314aeb/plutoalert_StarTrek.py/python3/) ... is executing my Python code just fine ... but is then leading to EMPTY RESULTS. Sorry for that.
+Geoblocking is also the reason why starting plutoalert inside the fabulous [Gitpod](https://gitpod.io/#https://github.com/drandreaskrueger/plutoalert) and [PythonAnywhere](https://www.pythonanywhere.com/gists/94d3b92d57976da77ae2753b45314aeb/plutoalert_StarTrek.py/python3/) ... is executing my Python code just fine ... but is then leading to `EMPTY result`. Sorry for that. Ideas how to solve it?
 
-*Help me: Please* point me to yet another online-Python execution environment. I would like to present running code to anyone, even those who do not want to install Python locally. Thanks.
+*Help me: Please* point me to yet another online-Python execution environment, as I would like to present running code to anyone, even those who do not want to install Python locally. Thanks.
 
 ## Development
 
