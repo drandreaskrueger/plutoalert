@@ -38,7 +38,7 @@ for example outputs, see below.
 ## Geoblocking
 If the only thing you get is a boring `403 ... EMPTY RESULTS` then perhaps the pluto API is *never answering* **to you**? To test that, try `curl http://api.pluto.tv/v2/channels` on the commandline (or paste that URL in the browser). If that answer is `[]` too, then your **solution** is:
 
-First connect your VPN to one of these countries in which PlutoTv is working ... (the following list was true in March 2022) ...
+First connect your VPN to a countries where PlutoTv is working (following list was true in March 2022) ...
 
 * Argentina, Austria, Brazil, Canada, Chile, Costa Rica, France, Germany, Italy, Mexico, Spain, Switzerland, Thailand, UK, US
 
@@ -47,7 +47,7 @@ First connect your VPN to one of these countries in which PlutoTv is working ...
 ### Python online execution environments: pythonanywhere, gitpod, ...
 Geoblocking is also the reason why starting plutoalert inside the fabulous [Gitpod](https://gitpod.io/#https://github.com/drandreaskrueger/plutoalert) and [PythonAnywhere](https://www.pythonanywhere.com/gists/94d3b92d57976da77ae2753b45314aeb/plutoalert_StarTrek.py/python3/) ... is executing my Python code just fine ... but is then leading to EMPTY RESULTS. Sorry for that.
 
-Help me: Please point me to yet a different online-Python execution environment. I would like to present the code to anyone, even those who do not want to install Python locally. Thanks.
+*Help me: Please* point me to yet another online-Python execution environment. I would like to present running code to anyone, even those who do not want to install Python locally. Thanks.
 
 ## Development
 
