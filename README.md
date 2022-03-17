@@ -6,7 +6,7 @@
 
 The EPG of Pluto.tv projects only a few hours into the future. This commandline tool here quickly checks, whether the rotation of your favorite series has reached that one episode again, that you have not seen yet.
 
-It begins by downloading the *complete* channel information json (>100 channels, >400 series, >2000 episodes), and then filtering by your choices (see 'ChannelSlug', 'SeriesSlug') - or a simple *word search* within the *title of the series name* (see the 'Star Trek' example). If you know Python, you can do all that already, see [plutotv.py](plutoalert/plutotv.py) --> `testing_all_of_the_above()`. However, on the commandline only a smaller subset of functions is implemented ... yet.
+It begins by downloading the *complete* channel information json (>100 channels, >400 series, >2000 episodes), and then filtering by your choices (see 'ChannelSlug', 'SeriesSlug') - or a simple *word search* within the *title of the series name* (see the 'Star Trek' example).
 
 ## Clone and initialize virtualenv
 Linux or Mac. For windows see [windows.md](windows.md).
@@ -19,7 +19,7 @@ source .venv/bin/activate
 ```
 
 ## Usage
-For now, 3 example scripts are implemented, they are all called like this:
+For now, 4 example scripts are implemented, they are all called like this:
 
 ```bash
 source .venv/bin/activate
@@ -31,6 +31,7 @@ These *commands* work already (more might be coming):
 * `StarTrek`
 * `ChannelSlugs`
 * `SeriesSlugs`
+* `Search` (see the `./pluto_{discovery,enterprise,everything}.sh ` examples below)
 
 Example outputs are below.
 
@@ -121,5 +122,55 @@ africa-from-cape-to-kruger-de = Africa From Cape To Kruger
 afrikas-naturparadiese-ptv1 = Afrikas Naturparadiese
 alert-threatened-species-de = Vom Aussterben bedroht
 alice-durch-den-spiegel = Alice Durch Den Spiegel
+...
+```
+
+./pluto_discovery.sh
+
+```
+python -m plutoalert Search -s star-trek-discovery-de,star-trek-enterprise-de -t Discovery
+command=Search
+s02e10 02:18 Mar 17 'Der rote Engel' 53 mins 'Star Trek: Discovery DE' [star-trek-discovery-de] pluto-tv-star-trek-de
+s02e11 03:11 Mar 17 'Der Zeitsturm' 55 mins 'Star Trek: Discovery DE' [star-trek-discovery-de] pluto-tv-star-trek-de
+s02e12 04:06 Mar 17 'Tal der Schatten' 51 mins 'Star Trek: Discovery DE' [star-trek-discovery-de] pluto-tv-star-trek-de
+```
+
+ ./pluto_enterprise.sh
+
+```
+python -m plutoalert Search -c pluto-tv-star-trek-de,pluto-tv-sci-fi-de -t Enterprise
+command=Search
+s02e13 04:57 Mar 17 'Morgengrauen' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e14 05:44 Mar 17 'Stigma' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e15 06:31 Mar 17 'Waffenstillstand' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e16 07:18 Mar 17 'Die Zukunft' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e17 08:05 Mar 17 'Canamar' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e18 08:52 Mar 17 'Übergang' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e19 09:39 Mar 17 'Das Urteil' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e20 10:26 Mar 17 'Horizont' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e21 11:13 Mar 17 'Böses Blut' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e22 12:00 Mar 17 'Cogenitor' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e23 12:47 Mar 17 'Regeneration' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e24 13:34 Mar 17 'Erstflug' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+s02e25 14:21 Mar 17 'Kopfgeld' 47 mins 'Star Trek: Enterprise DE' [star-trek-enterprise-de] pluto-tv-star-trek-de
+Series: ['star-trek-enterprise-de']
+Channels: ['pluto-tv-star-trek-de']
+```
+
+./pluto_everything.sh | head -n 12
+
+```
+python -m plutoalert Search -v
+command=Search
+Verbose mode is on.
+
+#################################
+2827 elements.
+
+s01e01 02:39 Mar 17 'Dezert People 13 (2016)' 81 mins 'Dezert People 13' [dezert-people-13-ptv2] action-sports-de
+s01e01 04:00 Mar 17 'Remote Wakeskates: Good Ratio' 33 mins 'Remote Wakeskates: Good Ratio' [remote-wakeskates-good-ratio-ptv2] action-sports-de
+s01e01 04:33 Mar 17 'Good Morning Miyazaki' 38 mins 'Good Morning Miyazaki' [good-morning-miyazaki-ptv2] action-sports-de
+s01e01 05:11 Mar 17 'The Golden Era (2014)' 50 mins 'The Golden Era (2014)' [the-golden-era-2014-ptv2] action-sports-de
+s01e01 06:01 Mar 17 'All Damn Day' 60 mins 'All Damn Day' [all-damn-day-ptv2] action-sports-de
 ...
 ```
