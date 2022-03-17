@@ -1,8 +1,8 @@
 # plutoalert
 
 [![CI](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml/badge.svg)](https://github.com/drandreaskrueger/plutoalert/actions/workflows/main.yml)
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/drandreaskrueger/plutoalert)
 [![codecov](https://codecov.io/gh/drandreaskrueger/plutoalert/branch/main/graph/badge.svg?token=plutoalert_token_here)](https://codecov.io/gh/drandreaskrueger/plutoalert)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/drandreaskrueger/plutoalert)
 
 The EPG of Pluto.tv projects only a few hours into the future. This commandline tool here quickly checks, whether the rotation of your favorite series has reached that one episode again, that you have not seen yet.
 
@@ -51,7 +51,7 @@ Geoblocking is also the reason why starting plutoalert inside the fabulous [Gitp
 
 ## Development
 
-Read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+Read the [CONTRIBUTING.md](CONTRIBUTING.md) file. Perhaps there is an [(good first) issue](https://github.com/drandreaskrueger/plutoalert/issues) that you like to solve?
 
 ## Example output
 Star Trek, now with times shown in localzone
