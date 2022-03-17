@@ -3,7 +3,15 @@ import argparse  # pragma: no cover
 from . import BaseClass  # pragma: no cover
 from . import base_function  # pragma: no cover
 from . import the_purpose_of_all_this_v2  # pragma: no cover
-from . import print_channel_slugs, print_series_slugs
+from . import print_channel_slugs, print_series_slugs  # pragma: no cover
+from . import print_after_all_filters  # pragma: no cover
+
+
+def None_to_None(my_string):
+    if my_string == "None":
+        return None
+    else:
+        return my_string
 
 
 def main() -> None:  # pragma: no cover
@@ -30,16 +38,33 @@ def main() -> None:  # pragma: no cover
     parser.add_argument(
         "command",
         type=str,
-        help="Try StarTrek, ChannelSlugs or SeriesSlugs",
+        help="Try StarTrek, ChannelSlugs, SeriesSlugs, Search",
         default="StarTrek",
+    )
+    parser.add_argument(
+        "-t",
+        "--title",
+        type=str,
+        help='find string in Series Title, e.g. "Star Trek"',
+        default='None',
+        required=False,
+    )
+    parser.add_argument(
+        "-s",
+        "--series",
+        type=str,
+        help=("Series Slugs, e.g."
+              " star-trek-discovery-de,star-trek-enterprise-de"),
+        default='None',
+        required=False,
     )
     # This is optional named argument
     parser.add_argument(
-        "-m",
-        "--message",
+        "-c",
+        "--channels",
         type=str,
-        help="The Message",
-        default="Hello",
+        help="Channel Slugs, e.g. pluto-tv-star-trek-de,pluto-tv-sci-fi-de",
+        default='None',
         required=False,
     )
     parser.add_argument(
@@ -62,6 +87,13 @@ def main() -> None:  # pragma: no cover
         return
     if args.command == "SeriesSlugs":
         print_series_slugs(titles_too=args.verbose)
+        return
+    if args.command == "Search":
+
+        print_after_all_filters(find_in_series_name=None_to_None(args.title),
+                                my_channel_slugs=None_to_None(args.channels),
+                                my_series_slugs=None_to_None(args.series),
+                                print_count=args.verbose)
         return
 
     print("Executing main function")

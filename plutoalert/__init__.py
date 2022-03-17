@@ -4,6 +4,7 @@ from .plutotv import (
     print_channel_slugs,
     print_series_slugs,
     the_purpose_of_all_this_v2,
+    print_after_all_filters
 )
 
 __all__ = [
@@ -12,4 +13,5 @@ __all__ = [
     "the_purpose_of_all_this_v2",
     "print_channel_slugs",
     "print_series_slugs",
+    "print_after_all_filters"
 ]

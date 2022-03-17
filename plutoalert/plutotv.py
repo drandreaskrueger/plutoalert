@@ -228,12 +228,13 @@ def iterate_pluto(
                 ep = tl["episode"]
                 series_name, series_slug = series_info(ep)
 
+                if my_series_slugs and (series_slug not in my_series_slugs):
+                    continue
+
                 if find_in_series_name and (
                     find_in_series_name not in series_name
                 ):
-                    break
-                if my_series_slugs and (series_slug not in my_series_slugs):
-                    break
+                    continue
 
                 start, start_print, minutes = time_info(tl)
                 key = (
@@ -379,10 +380,47 @@ def print_series_slugs(titles_too=False):
     )
 
 
+def to_list(a_comma_b):
+    my_list = a_comma_b.split(",")  # turn string into list
+    return [element.strip() for element in my_list]  # remove whitespaces
+
+
+def print_after_all_filters(find_in_series_name=None,
+                            my_channel_slugs=None,
+                            my_series_slugs=None,
+                            print_count=False,
+                            print_parameters=False):
+    """
+    any filter can be 'None' or set to include only such results
+    """
+    if print_parameters:
+        print("find_in_series_name:", find_in_series_name)
+        print("my_channel_slugs: ", my_channel_slugs)
+        print("my_series_slugs:", my_series_slugs)
+        print("print_count", print_count)
+
+    channels = None if not my_channel_slugs else to_list(my_channel_slugs)
+    series = None if not my_series_slugs else to_list(my_series_slugs)
+
+    url = pluto_url_around_now()
+    j = get_pluto_epg(url, ifprint=False)
+
+    result, channels, series = iterate_pluto(
+        j,
+        find_in_series_name=find_in_series_name,
+        my_channel_slugs=channels,
+        my_series_slugs=series,
+        print_each_hit=False,
+        print_channel_name=False,
+        print_count=print_count
+    )
+    print_result_series_channels(result, series, channels)
+
 # -----------------------------------------------------------------------
 
 
 def testing_all_of_the_above():
+    """
     print(urllib.parse.unquote(PLUTO_URL))
 
     create_pluto_url_test(PLUTO_URL)
@@ -415,11 +453,22 @@ def testing_all_of_the_above():
     print_series_slugs()
     print_series_slugs(titles_too=True)
 
+    """
+    channels = None
+    word, series = 'Sta', 'star-trek-discovery-de,star-trek-enterprise-de'
+    word, series = 'Sta', None
+    word, series = None, 'star-trek-discovery-de'
+    word, series, channels = None, None, 'pluto-tv-star-trek-de'
+    print_after_all_filters(find_in_series_name=word,
+                            my_channel_slugs=channels,
+                            my_series_slugs=series,
+                            print_count=True)
+
 
 if __name__ == "__main__":
     # print(pluto_url_around_now())
-    # testing_all_of_the_above()
-    the_purpose_of_all_this_v2()
+    testing_all_of_the_above()
+    # the_purpose_of_all_this_v2()
     # print_channel_slugs(titles_too=True)
     # print_channel_slugs()
     # print_series_slugs()
