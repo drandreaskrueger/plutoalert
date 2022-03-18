@@ -1,9 +1,14 @@
 #!/bin/bash
 
+loc=de # es,fr,de,uk, ...
+
+series="star-trek-discovery-"$loc",star-trek-enterprise-"$loc",star-trek-discovery-ptv1,star-trek-discovery-ptv2" # ,star-trek-the-next-generation,star-trek-the-next-generation-embed"
+channels="pluto-tv-star-trek-"$loc",pluto-tv-sci-fi-"$loc",pluto-tv-sci-fi-series-"$loc",star-trek-1,star-trek-2"
+
 source .venv/bin/activate
 
-# restricts to channels pluto-tv-star-trek-de and pluto-tv-sci-fi-de, and searches for Enterprise in SeriesTitle
-command="python -m plutoalert Search -c pluto-tv-star-trek-de,pluto-tv-sci-fi-de -t Enterprise"
-echo $command
+# restricts to some ChannelSlugs, and then searches for Enterprise in SeriesTitle
+command="python -m plutoalert Search -c "$channels" -t Enterprise"
 
+echo $command
 $command
